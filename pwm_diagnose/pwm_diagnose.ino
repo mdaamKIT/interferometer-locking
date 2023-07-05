@@ -46,8 +46,6 @@ void loop() {
 
   int wPin = 9;
   int rPin = A5;
-
-  // insert a test: how much reacts the interferometer to the output? (answer: not much without amps.)
   
   for (int x=0; x<255; x++){
     analogWrite(wPin,x);
@@ -58,7 +56,6 @@ void loop() {
     delay(100);
   }
   
-
   analogWrite(wPin,64);
   delay(2000);
   analogWrite(wPin,128);
