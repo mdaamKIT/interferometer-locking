@@ -1,0 +1,26 @@
+
+Parameter Tuning
+================
+
+The parameters that control the sensitivity of the subparts of the control-loop, p and i, have to be calibrated to the system (interferometer) to be controlled.
+
+As mentioned in the README.txt, against some aesthetical considerations, these parameters are hard-coded in the 'locking' sketch. You could change that e.g. by using potentiometers to adjust them. As it is now, you need to adjust them in the code and re-upload the code to the microcontroller to observe the effect of your changes.
+
+While tuning the control parameters, we need to moderately disturb the system multiple times. For an interferometer this is most easily done by pushing its breadboard (ground plate) at some point as the induced stress should be enough to move the pattern up to multiple fringes.
+
+The tuning itself works the same, no matter how it is implemented:
+- First you set both parameters (p - proporional and i - integral) to zero.
+- Then you increase p until a perturbation of the system gets compensated relatively quickly to a stable point without too much overshooting. Since the integral part of the system is not yet doing anything, it may be that the compensation does not meet the desired level.
+- Now you increase the i until a perturbation does compensated quickly to the desired level, without too muc overshooting.
+- If this is not possible, you may need to slightly decrease p and increase i further.
+
+
+Operation
+=========
+
+One of the drawbacks of our very simple setup is that we can not drive the piezo very far since our possible voltages applied only span about 5 V. Typically that only allows to shift the pattern by only very few fringes. Great disturbances can therefore not be fully compensated. It happens after a while or through too heavy impacts that the microcontroller reaches its limit of possible compensation. With the code as-is it typically gets stuck there and the Arduino needs to be resetted by its reset-button to get back to locking the interferometer. 
+
+You could of course modify the code, to automatically detect being stuck at maximum (or minimum) displacement and define some desired behaviour.
+
+An amplifier could help in moving the piezo further than just a few fringes. Operational amplifiers would provide a cheap solution.
+
