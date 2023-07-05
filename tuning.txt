@@ -6,6 +6,12 @@ The parameters that control the sensitivity of the subparts of the control-loop,
 
 As mentioned in the README.txt, against some aesthetical considerations, these parameters are hard-coded in the 'locking' sketch. You could change that e.g. by using potentiometers to adjust them. As it is now, you need to adjust them in the code and re-upload the code to the microcontroller to observe the effect of your changes.
 
+For observation, you should connect your microcontroller to your PC and open the serial plotter. It plots four values:
+PD_goal is the setpoint; the desired voltage of the photodiode you want your interferometer to be locked to.
+PD_act is the actual reading of the photodiode.
+average is the basis for the integral part of the control loop: it is the average error over the last 20 readings.
+PZ is the voltage feeded to the piezo. It can be in 0..255 and ideally is around 128 to keep scope in both directions.
+
 While tuning the control parameters, we need to moderately disturb the system multiple times. For an interferometer this is most easily done by pushing its breadboard (ground plate) at some point as the induced stress should be enough to move the pattern up to multiple fringes.
 
 The tuning itself works the same, no matter how it is implemented:
