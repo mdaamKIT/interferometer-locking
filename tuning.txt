@@ -2,22 +2,22 @@
 Parameter Tuning
 ================
 
-The parameters that control the sensitivity of the subparts of the control-loop, p and i, have to be calibrated to the system (interferometer) to be controlled.
+The parameters that control the sensitivity of the subparts of the control-loop, p and i, have to be calibrated to the system (interferometer) under control.
 
 As mentioned in the README.txt, against some aesthetical considerations, these parameters are hard-coded in the 'locking' sketch. You could change that e.g. by using potentiometers to adjust them. As it is now, you need to adjust them in the code and re-upload the code to the microcontroller to observe the effect of your changes.
 
 For observation, you should connect your microcontroller to your PC and open the serial plotter. It plots four values:
 PD_goal is the setpoint; the desired voltage of the photodiode you want your interferometer to be locked to.
-PD_act is the actual reading of the photodiode.
+PD_act is the actual reading of the photodiode; it should stay close to PD_goal, while the locking is active.
+PZ corresponds to the voltage feeded to the piezo. It is an integer in 0..255 and ideally is around 128 to keep scope in both directions. PZ is written to the Pin 9 via the analogWrite() function.
 average is the basis for the integral part of the control loop: it is the average error over the last 20 readings.
-PZ is the voltage feeded to the piezo. It can be in 0..255 and ideally is around 128 to keep scope in both directions.
 
-While tuning the control parameters, we need to moderately disturb the system multiple times. For an interferometer this is most easily done by pushing its breadboard (ground plate) at some point as the induced stress should be enough to move the pattern up to multiple fringes.
+While tuning the control parameters, we need to moderately disturb the system multiple times. For an interferometer this is most easily done by pushing downward on its breadboard (ground plate) at some point as the induced stress should be enough to move the pattern up to multiple fringes.
 
-The tuning itself works the same, no matter how it is implemented:
+This procedure can be followed to tune the parameters:
 - First you set both parameters (p - proporional and i - integral) to zero.
-- Then you increase p until a perturbation of the system gets compensated relatively quickly to a stable point without too much overshooting. Since the integral part of the system is not yet doing anything, it may be that the compensation does not meet the desired level.
-- Now you increase the i until a perturbation does compensated quickly to the desired level, without too muc overshooting.
+- Then you increase p until a perturbation of the system gets compensated relatively quickly to a stable point without too much overshooting.
+- Now you increase the i until a perturbation gets compensated quickly to the desired level, without too much overshooting.
 - If this is not possible, you may need to slightly decrease p and increase i further.
 
 

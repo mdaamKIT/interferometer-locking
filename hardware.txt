@@ -3,7 +3,7 @@ This file contains more details about the hardware to use in this projekt.
 
 Interferometer
 --------------
-We tried this sketch with a Michelson-Interferometer but in principle it should work for other types as well. There are only two important details: you need to be able to adjust the interference pattern in such a way, that the fringes are big enough and rich in contrast such that a photodiode can measure the difference between bright and dark fringes. On the other hand, you need to have one of the mirrors controlled by a piezo either on a piezo-driven tranlation stage, with a mirror simply glued to a piezo or with a piezo between the adjustment screw and the holder inside the mount of the mirror.
+We tried this sketch with a Michelson-Interferometer but in principle it should work for other types as well. There are only two important details: you need to be able to adjust the interference pattern in such a way, that the fringes are big enough and rich in contrast. Only then a photodiode can measure the difference between bright and dark fringes. On the other hand, you need to have one of the mirrors controlled by a piezo either on a piezo-driven translation stage or with a mirror simply glued to a piezo.
 
 Microcontroller
 ---------------
@@ -13,20 +13,21 @@ If your Microcontroller does not support analog reading of voltages, you would n
 
 Photodiode
 ----------
-You need a photodiode that is sensitive to the light of your laser. There are more expensive ones by optical component manufacturers but you could also use simple and cheap ones for just around 1$. In this case, you should add a resistor in parallel. With our red laser, we had these combinations working: Diode SFH 229 OSO / Resistor 22 kOhm; Diode SFH 203 / Resistor 100 kOhm. These can be directly connected to the Arduino to GND and a pin for analog reading such as the pin A5 on my Arduino Uno. Try to keep cables short and use shielded ones (e.g. BNC-connecting cables) or at least twist them.
+You need a photodiode that is sensitive to the light of your laser. There are more expensive ones by optical component manufacturers but you could also use simple and cheap ones for just around 1$. In this case, you should add a resistor in parallel. With our red laser, we had these combinations working: Diode SFH 229 OSO / Resistor 22 kOhm; Diode SFH 203 / Resistor 100 kOhm. These can be directly connected to the Arduino to GND and a pin for analog reading such as the pin A5 on the Arduino Uno. Try to keep cables short and use shielded ones (e.g. BNC-connecting cables) or at least twist them.
+Most silicium photodiodes have their maximum response in the very near infrared region, so they are often more sensible to red lasers than to green or blue ones. 
 
 Piezo
 -----
 A piezo is an element which elongates when a voltage is applied. We will use this effect to counter any unwanted changes in the length of the arms of the interferometer. For that purpose one of the mirrors has to be connected to the piezo.
-I had a mirror glued to a piezo stack by Thorlabs, these are available for about 35-100 $. I guess even a piezo taken out of a lighter might work but I have not yet tried.
+I had a mirror glued to a piezo stack by Thorlabs, these are available for about 35-100 $.
 
 Low-pass Filter
 ---------------
-The Arduino Uno does not have a pin for a real analog output i.e. where it can output an arbitrary voltage somewhere between its LOW state (0 V) and its HIGH state (5 V). But it has pins capable of pulse width modulation (PMW). At these pins, you can output a voltage that is basically a rectangular wave with some fixed basic frequency (and fixed amplitude 5 Vpp) and variable duty cycle ranging from 0 % to 100 %.
-But we need a variable voltage to move the piezo in a controlled manner, as the length of the piezo depends on the voltage applied. If we want the piezo to expand for half its maximum displacement, it is not helpful to have it at its minimum for half of the time and on its maximum the other half. A properly designed low-pass filter will help us converting a rectangular wave of variing duty-cycle in a variing DC voltage if it integrates over more than one period. 
+The Arduino Uno does not have a pin for a real analog output i.e. where it can output an arbitrary voltage somewhere between its LOW state (0 V) and its HIGH state (5 V). But it has pins capable of pulse width modulation (PMW). At these pins, you can output a voltage that is basically a rectangular wave with some fixed basic frequency and fixed amplitude 5 Vpp but variable duty cycle ranging from 0 % to 100 %.
+We need of course a variable voltage to move the piezo in a controlled manner, as the length of the piezo depends on the voltage applied. If we want the piezo to expand for half its maximum displacement, it is not helpful to have it at its minimum for half of the time and on its maximum the other half. A properly designed low-pass filter will help us converting a rectangular wave of variing duty-cycle in a variing DC voltage if it integrates over multiple periods. 
 For the simplest low-pass filter we only need a resistor and a capacitor connected as in the schematic below. With my piezo, a 2.2 kOhm resistor and a 1 uF capacitor did a good job but other piezo models might call for different values. The easiest way to find them is to send variing values to the pwm-output (as in the sketch 'pwm-diagnose') with all the components attached and observe the voltage across the piezo with an oscilloscope. For too small values of the resistance and capacitance you will still see the basic waveform and for too big values the system will show noticeable inertia while changing the output. Note that the capacitor may not be necessary as the piezo itself already has a capacitance.
 
-                             Piezo
+                              Piezo
                        ----[ ]----
                       |           |
                       |           |
