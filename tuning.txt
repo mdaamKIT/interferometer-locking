@@ -28,5 +28,5 @@ One of the drawbacks of our very simple setup is that we can not drive the piezo
 
 You could of course modify the code, to automatically detect being stuck at maximum (or minimum) displacement and define some desired behaviour.
 
-An amplifier could help in moving the piezo further than just a few fringes. Operational amplifiers would provide a cheap solution.
+An amplifier could help in moving the piezo further than just a few fringes.
 
